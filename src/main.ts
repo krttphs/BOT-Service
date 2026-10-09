@@ -1,13 +1,14 @@
 import { createApp } from './bootstrap.js';
 
 /**
- * ใช้ตอนรันในเครื่อง / Docker (listen port จริง)
- * บน Vercel จะไม่รันไฟล์นี้ แต่ใช้ api/index.ts แทน
+ * รัน Nest server ฟังที่ $PORT
+ * ใช้ได้ทั้ง local, Docker, และ Vercel Container
+ * (Vercel ตั้ง $PORT ให้อัตโนมัติ — ต้อง bind 0.0.0.0 ไม่ใช่ localhost)
  */
 async function bootstrap() {
   const { expressApp } = await createApp();
-  const port = process.env.PORT ?? 3000;
-  expressApp.listen(port, () => {
+  const port = Number(process.env.PORT ?? 3000);
+  expressApp.listen(port, '0.0.0.0', () => {
     console.log(`Application is running on port ${port}`);
   });
 }
