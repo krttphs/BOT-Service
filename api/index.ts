@@ -3,7 +3,8 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 
 // import "ของที่ compile แล้ว" จาก dist (nest build สร้างไว้ตอน buildCommand)
 // เพื่อไม่ให้ Vercel/esbuild ไปคอมไพล์ decorator ใหม่จน metadata หาย
-// @ts-expect-error — dist ถูกสร้างตอน build บน Vercel ยังไม่มีตอน type-check
+// ใช้ @ts-ignore (ไม่ใช่ @ts-expect-error) เพราะบน Vercel มี dist แล้ว import ไม่ error
+// @ts-ignore
 import { createApp } from '../dist/bootstrap.js';
 
 type ExpressApp = (req: IncomingMessage, res: ServerResponse) => void;
