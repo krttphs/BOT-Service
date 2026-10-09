@@ -1,0 +1,51 @@
+services:
+  api:
+    build:
+      context: .
+      target: api
+    image: bot-system-api
+    container_name: bot-system-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    ports:
+      - "4000:3000"
+    networks:
+      - bot
+
+  web:
+    build:
+      context: .
+      target: web
+      args:
+        API_INTERNAL_URL: http://api:3000
+    image: bot-system-web
+    container_name: bot-system-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      HOSTNAME: 0.0.0.0
+      API_INTERNAL_URL: http://api:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      - api
+    networks:
+      - bot
+
+  linter:
+    build:
+      context: .
+      target: linter
+    image: bot-system-linter
+    container_name: bot-system-linter
+    networks:
+      - bot
+
+networks:
+  bot:
+    driver: bridge

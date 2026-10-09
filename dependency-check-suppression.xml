@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.4.xsd"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.4.xsd
+                                  https://dependency-check.github.io/DependencyCheck/dependency-suppression.1.4.xsd">
+
+    <suppress>
+        <notes><![CDATA[
+        False positive: CVE-2014-8180 is associated with MongoDB on Red Hat Satellite 6.
+        The detected dependency is the npm MongoDB Node.js driver version 7.6.0,
+        which is used transitively by mongoose 9.10.3.
+        ]]></notes>
+
+        <packageUrl regex="true">^pkg:npm/mongodb@7\.6\.0$</packageUrl>
+        <cve>CVE-2014-8180</cve>
+    </suppress>
+
+    <suppress>
+        <notes><![CDATA[
+        Accepted risk (no upstream fix available): GHSA-vfj7-8cjw-p6xm / CVE-2026-93687
+        affects braces <= 3.0.3 (stack-exhaustion DoS via deeply nested patterns).
+        Version 3.0.3 is the latest release and no patched version exists yet, so downgrading
+        or dropping the dependency is undesirable. Remove this suppression once a fix is released.
+
+        Detected dependency: npm braces 3.0.3, transitive via micromatch 4.0.8 (dev-only,
+        pulled in by eslint-config-next).
+        ]]></notes>
+
+        <packageUrl regex="true">^pkg:npm/braces@3\.0\.3$</packageUrl>
+        <vulnerabilityName>GHSA-vfj7-8cjw-p6xm</vulnerabilityName>
+        <cve>CVE-2026-93687</cve>
+    </suppress>
+
+</suppressions>
